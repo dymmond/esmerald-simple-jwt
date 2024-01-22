@@ -9,8 +9,8 @@ fi
 if [ -d 'htmlcov' ] ; then
     rm -r htmlcov
 fi
-if [ -d 'esmerald-simple-jwt.egg-info' ] ; then
-    rm -r esmerald-simple-jwt.egg-info
+if [ -d 'esmerald_simple_jwt.egg-info' ] ; then
+    rm -r esmerald_simple_jwt.egg-info
 fi
 if [ -d '.hypothesis' ] ; then
     rm -r .hypothesis
@@ -25,5 +25,5 @@ if [ -d '.ruff_cache' ] ; then
     rm -r .ruff_cache
 fi
 
-find esmerald-simple-jwt -type f -name "*.py[co]" -delete
-find esmerald-simple-jwt -type d -name __pycache__ -delete
+find esmerald_simple_jwt -type f -name "*.py[co]" -delete
+find esmerald_simple_jwt -type d -name __pycache__ -delete

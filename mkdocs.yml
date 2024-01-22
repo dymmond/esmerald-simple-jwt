@@ -1,6 +1,6 @@
 site_name: Esmerald Simple JWT
 site_description: The Simple JWT integration with Esmerald.
-site_url: https://esmerald-simple-jwt.dymmond.com
+site_url: https://esmerald_simple_jwt.dymmond.com
 
 theme:
   name: "material"
@@ -12,15 +12,15 @@ theme:
       accent: "amber"
       media: "(prefers-color-scheme: light)"
       toggle:
-            icon: "material/lightbulb"
-            name: "Switch to dark mode"
+        icon: "material/lightbulb"
+        name: "Switch to dark mode"
     - scheme: "slate"
       media: "(prefers-color-scheme: dark)"
       primary: "purple"
       accent: "amber"
       toggle:
-            icon: "material/lightbulb-outline"
-            name: "Switch to light mode"
+        icon: "material/lightbulb-outline"
+        name: "Switch to light mode"
   favicon: statics/images/favicon.ico
   logo: statics/images/logo-white.svg
   features:
@@ -29,8 +29,8 @@ theme:
     - content.tabs.link
     - content.code.copy
 
-repo_name: dymmond/esmerald-simple-jwt
-repo_url: https://github.com/dymmond/esmerald-simple-jwt
+repo_name: dymmond/esmerald_simple_jwt
+repo_url: https://github.com/dymmond/esmerald_simple_jwt
 edit_uri: ""
 plugins:
   - search
