@@ -2,20 +2,20 @@ from abc import ABC
 from datetime import datetime
 from typing import Any, Dict, Union
 
-from esmerald.conf import settings
-from esmerald.exceptions import AuthenticationError, ImproperlyConfigured, NotAuthorized
-from esmerald.security.jwt.token import Token
+# from esmerald_simple_jwt.constants import SIMPLE_JWT_SETTINGS
+from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
 from jose import JWSError, JWTError
 from pydantic import BaseModel, EmailStr
 
-from esmerald_simple_jwt.constants import SIMPLE_JWT_SETTINGS
-from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
+from esmerald.conf import settings
+from esmerald.exceptions import AuthenticationError, ImproperlyConfigured, NotAuthorized
+from esmerald.security.jwt.token import Token
 
-if not hasattr(settings, SIMPLE_JWT_SETTINGS):
-    raise ImproperlyConfigured(
-        f"'simple_jwt' settings not found in {settings.__class__.__name__}. "
-        "Check the documentation for more details."
-    )
+# if not hasattr(settings, SIMPLE_JWT_SETTINGS):
+#     raise ImproperlyConfigured(
+#         f"'simple_jwt' settings not found in {settings.__class__.__name__}. "
+#         "Check the documentation for more details."
+#     )
 
 
 class BaseBackendAuthentication(ABC, BaseModel):

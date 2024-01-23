@@ -1,12 +1,12 @@
 from typing import Any, List, Type, Union
 
-from esmerald.config.jwt import JWTConfig
-from esmerald.openapi.security.http import Bearer
+from esmerald_simple_jwt.backends import BaseBackendAuthentication, BaseRefreshAuthentication
+from esmerald_simple_jwt.schemas import LoginEmailIn
 from pydantic import BaseModel
 from typing_extensions import Annotated, Doc
 
-from esmerald_simple_jwt.backends import BaseBackendAuthentication, BaseRefreshAuthentication
-from esmerald_simple_jwt.schemas import LoginEmailIn
+from esmerald.config.jwt import JWTConfig
+from esmerald.openapi.security.http import Bearer
 
 
 class SimpleJWT(JWTConfig):
@@ -61,13 +61,13 @@ class SimpleJWT(JWTConfig):
         ),
     ] = LoginEmailIn
     tags: Annotated[
-        str,
+        Union[str, None],
         Doc(
             """
             OpenAPI tags to be displayed.
             """
         ),
-    ]
+    ] = None
     signin_url: Annotated[
         str,
         Doc(

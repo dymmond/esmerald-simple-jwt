@@ -1,9 +1,14 @@
 import os
-from typing import Optional
+from functools import cached_property
+from typing import Optional, Tuple
 
+from esmerald_simple_jwt.backends import BackendEmailAuthentication, RefreshAuthentication
+from esmerald_simple_jwt.config import SimpleJWT
+
+from edgy import Database as EdgyDatabase
+from edgy import Registry as EdgyRegistry
+from esmerald import EsmeraldAPISettings
 from esmerald.conf.global_settings import EsmeraldAPISettings
-from esmerald.config.jwt import JWTConfig
-from pydantic import ConfigDict
 
 TEST_DATABASE_URL = os.environ.get(
     "DATABASE_URI", "postgresql+asyncpg://postgres:postgres@localhost:5432/simple_jwt"
@@ -19,14 +24,15 @@ class TestSettings(EsmeraldAPISettings):
     redirect_slashes: bool = True
     include_in_schema: bool = False
 
-    @property
-    def simple_jwt(self) -> JWTConfig:
-        return JWTConfig(signing_key=self.secret_key)
-
-
-class TestConfig(TestSettings):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    @cached_property
+    def edgy_registry(self) -> Tuple[EdgyDatabase, EdgyRegistry]:
+        database = EdgyDatabase(TEST_DATABASE_URL)
+        return database, EdgyRegistry(database=database)
 
     @property
-    def scheduler_class(self) -> None:
-        """"""
+    def simple_jwt(self) -> SimpleJWT:
+        return SimpleJWT(
+            signing_key=self.secret_key,
+            backend_authentication=BackendEmailAuthentication,
+            backend_refresh=RefreshAuthentication,
+        )
