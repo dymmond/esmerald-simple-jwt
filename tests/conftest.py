@@ -1,5 +1,4 @@
 import pytest
-
 from esmerald.conf import settings
 
 database, models = settings.edgy_registry

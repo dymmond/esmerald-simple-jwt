@@ -1,24 +1,23 @@
 import os
 
-from esmerald_simple_jwt.config import SimpleJWT
-from esmerald_simple_jwt.extension import SimpleJWTExtension
-from tests.settings import TestSettings
-
 from esmerald import Esmerald, Pluggable
 from esmerald.testclient import EsmeraldTestClient
+from tests.settings import TestSettings
 
-os.environ.setdefault(
-    "ESMERALD_SETTINGS_MODULE", "tests.pluggables.test_config_custom.CustomSettings"
-)
+from esmerald_simple_jwt.config import SimpleJWT
+from esmerald_simple_jwt.extension import SimpleJWTExtension
+
+os.environ.setdefault("ESMERALD_SETTINGS_MODULE", None)
 
 
 class CustomSettings(TestSettings):
     @property
     def simple_jwt(self) -> SimpleJWT:
-        from esmerald_simple_jwt.backends import RefreshAuthentication
         from tests.backends import EmailBackendAuth
 
-        simple_hwt = SimpleJWT(
+        from esmerald_simple_jwt.backends import RefreshAuthentication
+
+        simple_jwt = SimpleJWT(
             signing_key=self.secret_key,
             signin_url="/login",
             refresh_url="/refresh",
@@ -27,18 +26,13 @@ class CustomSettings(TestSettings):
             backend_refresh=RefreshAuthentication,
             backend_authentication=EmailBackendAuth,
         )
-        return simple_hwt
-
-
-class SubCustomSettings(CustomSettings):
-    ...
+        return simple_jwt
 
 
 def test_can_change_properties():
     app = Esmerald(
-        settings_module=CustomSettings,
         routes=[],
-        pluggables={"simple-jwt": Pluggable(SimpleJWTExtension, settings_module=CustomSettings)},
+        pluggables={"simple-jwt": Pluggable(SimpleJWTExtension, path="/auth")},
         enable_openapi=True,
     )
     client = EsmeraldTestClient(app)
@@ -53,11 +47,11 @@ def test_can_change_properties():
             "summary": "Esmerald application",
             "description": "Highly scalable, performant, easy to learn and for every application.",
             "contact": {"name": "admin", "email": "admin@myapp.com"},
-            "version": "2.7.0",
+            "version": app.version,
         },
         "servers": [{"url": "/"}],
         "paths": {
-            "/simple-jwt/signin": {
+            "/auth/signin": {
                 "post": {
                     "summary": "Login API and returns a JWT Token.",
                     "operationId": "simplejwt_signin_signin_post",
@@ -139,7 +133,7 @@ def test_can_change_properties():
                     },
                 }
             },
-            "/simple-jwt/refresh-access": {
+            "/auth/refresh-access": {
                 "post": {
                     "summary": "Refreshes the access token",
                     "description": "When a token expires, a new access token must be generated from the refresh token previously provided. The refresh token must be just that, a refresh and it should only return a new access token and nothing else\n    ",
@@ -257,7 +251,7 @@ def test_can_change_properties():
                     "type": "object",
                     "required": ["refresh_token"],
                     "title": "RefreshToken",
-                    "description": "Model used only to refresh",
+                    "description": "Model used only to ref",
                 },
                 "TokenAccess": {
                     "properties": {

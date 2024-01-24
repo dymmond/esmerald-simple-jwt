@@ -1,10 +1,10 @@
 from typing import Dict, List
 
-from esmerald_simple_jwt.schemas import AccessToken, RefreshToken, TokenAccess
-
 from esmerald import APIView, JSONResponse, post, status
 from esmerald.conf import settings
 from esmerald.openapi.datastructures import OpenAPIResponse
+
+from esmerald_simple_jwt.schemas import AccessToken, RefreshToken, TokenAccess
 
 
 class UserAPIView(APIView):

@@ -1,7 +1,7 @@
-from esmerald_simple_jwt.extension import SimpleJWTExtension
-
 from esmerald import Esmerald, Pluggable
 from esmerald.testclient import EsmeraldTestClient
+
+from esmerald_simple_jwt.extension import SimpleJWTExtension
 
 
 def test_can_assemble_pluggable():

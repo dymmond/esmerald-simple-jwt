@@ -1,69 +1,12 @@
-import warnings
-from datetime import timezone as dtimezone
-from functools import cached_property
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Callable,
-    Dict,
-    List,
-    Optional,
-    Sequence,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, List, Optional, Sequence
 
-from openapi_schemas_pydantic.v3_1_0 import Contact, License, SecurityScheme
-from openapi_schemas_pydantic.v3_1_0.open_api import OpenAPI
-from pydantic import AnyUrl, ValidationError
-from starlette.applications import Starlette
-from starlette.middleware import Middleware as StarletteMiddleware  # noqa
-from starlette.types import Lifespan, Receive, Scope, Send
-from typing_extensions import Annotated, Doc
-
-from esmerald import ChildEsmerald, Esmerald, Extension, Include
-from esmerald.conf import settings as esmerald_settings
-from esmerald.conf.global_settings import EsmeraldAPISettings
-from esmerald.config import CORSConfig, CSRFConfig, SessionConfig
-from esmerald.config.openapi import OpenAPIConfig
-from esmerald.config.static_files import StaticFilesConfig
-from esmerald.datastructures import State
-from esmerald.exception_handlers import (
-    improperly_configured_exception_handler,
-    pydantic_validation_error_handler,
-    validation_error_exception_handler,
-)
-from esmerald.exceptions import ImproperlyConfigured, ValidationErrorException
+from esmerald import ChildEsmerald, Esmerald
 from esmerald.interceptors.types import Interceptor
-from esmerald.middleware.asyncexitstack import AsyncExitStackMiddleware
-from esmerald.middleware.cors import CORSMiddleware
-from esmerald.middleware.csrf import CSRFMiddleware
-from esmerald.middleware.exceptions import EsmeraldAPIExceptionMiddleware, ExceptionMiddleware
-from esmerald.middleware.sessions import SessionMiddleware
-from esmerald.middleware.trustedhost import TrustedHostMiddleware
 from esmerald.permissions.types import Permission
-from esmerald.pluggables import Extension, Pluggable
-from esmerald.protocols.template import TemplateEngineProtocol
-from esmerald.routing import gateways
-from esmerald.routing.apis import base
-from esmerald.routing.router import HTTPHandler, Include, Router, WebhookHandler, WebSocketHandler
-from esmerald.types import (
-    APIGateHandler,
-    ASGIApp,
-    Dependencies,
-    ExceptionHandlerMap,
-    LifeSpanHandler,
-    Middleware,
-    ParentType,
-    ResponseCookies,
-    ResponseHeaders,
-    ResponseType,
-    RouteParent,
-    SchedulerType,
-)
-from esmerald.utils.helpers import is_class_and_subclass
+from esmerald.pluggables import Extension
+from esmerald.routing.router import Include
+from esmerald.types import Dependencies, ExceptionHandlerMap, Middleware
+from openapi_schemas_pydantic.v3_1_0 import SecurityScheme
 
 
 class SimpleJWTExtension(Extension):
@@ -89,7 +32,7 @@ class SimpleJWTExtension(Extension):
         include_in_schema: Optional[bool] = True,
         security: Optional[List["SecurityScheme"]] = None,
         enable_openapi: Optional[bool] = True,
-    ) -> None:  # type: ignore
+    ) -> None:
         if path is None:
             path = "/simple-jwt"
 

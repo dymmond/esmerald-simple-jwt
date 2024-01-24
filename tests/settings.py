@@ -2,13 +2,12 @@ import os
 from functools import cached_property
 from typing import Optional, Tuple
 
-from esmerald_simple_jwt.backends import BackendEmailAuthentication, RefreshAuthentication
-from esmerald_simple_jwt.config import SimpleJWT
-
 from edgy import Database as EdgyDatabase
 from edgy import Registry as EdgyRegistry
 from esmerald import EsmeraldAPISettings
-from esmerald.conf.global_settings import EsmeraldAPISettings
+
+from esmerald_simple_jwt.backends import BackendEmailAuthentication, RefreshAuthentication
+from esmerald_simple_jwt.config import SimpleJWT
 
 TEST_DATABASE_URL = os.environ.get(
     "DATABASE_URI", "postgresql+asyncpg://postgres:postgres@localhost:5432/simple_jwt"

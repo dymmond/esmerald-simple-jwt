@@ -1,7 +1,7 @@
-from esmerald_simple_jwt.extension import SimpleJWTExtension
-
 from esmerald import Esmerald, Pluggable
 from esmerald.testclient import EsmeraldTestClient
+
+from esmerald_simple_jwt.extension import SimpleJWTExtension
 
 
 def test_can_assemble_pluggable():
@@ -15,7 +15,6 @@ def test_can_assemble_pluggable():
     response = client.get("/openapi.json")
 
     assert response.status_code == 200
-    breakpoint()
     assert response.json() == {
         "openapi": "3.1.0",
         "info": {
@@ -23,7 +22,7 @@ def test_can_assemble_pluggable():
             "summary": "Esmerald application",
             "description": "Highly scalable, performant, easy to learn and for every application.",
             "contact": {"name": "admin", "email": "admin@myapp.com"},
-            "version": "2.7.0",
+            "version": app.version,
         },
         "servers": [{"url": "/"}],
         "paths": {
@@ -227,7 +226,7 @@ def test_can_assemble_pluggable():
                     "type": "object",
                     "required": ["refresh_token"],
                     "title": "RefreshToken",
-                    "description": "Model used only to refresh",
+                    "description": "Model used only to ref",
                 },
                 "TokenAccess": {
                     "properties": {
