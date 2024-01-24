@@ -1,3 +1,3 @@
-# esmerald_simple_jwt
+# esmerald-simple-jwt
 
 The Simple JWT integration with Esmerald

@@ -11,7 +11,7 @@ Giving a star to Esmerald Simple JWT is very simple and helps promoting the work
 
 The button is located at the top right.
 
-[https://github.com/dymmond/esmerald_simple_jwt](https://github.com/dymmond/esmerald_simple_jwt).
+[https://github.com/dymmond/esmerald-simple-jwt](https://github.com/dymmond/esmerald-simple-jwt).
 
 This will help spreading the word about the tool and how helpful has been.
 

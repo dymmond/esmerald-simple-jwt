@@ -3,9 +3,9 @@
 Thank you for showing interes in contributing to Esmerald Simple JWT. There are many ways you can help and contribute to the
 project.
 
-* Try Esmerald Simple JWT and [report bugs and issues](https://github.com/dymmond/esmerald_simple_jwt/issues/new) you find.
-* [Implement new features](https://github.com/dymmond/esmerald_simple_jwt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-* Help othes by [reviewing pull requests](https://github.com/dymmond/esmerald_simple_jwt/pulls)
+* Try Esmerald Simple JWT and [report bugs and issues](https://github.com/dymmond/esmerald-simple-jwt/issues/new) you find.
+* [Implement new features](https://github.com/dymmond/esmerald-simple-jwt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+* Help othes by [reviewing pull requests](https://github.com/dymmond/esmerald-simple-jwt/pulls)
 * Help writting documentation
 * Use the discussions and actively participate on them.
 * Become an contributor by helping Esmerald Simple JWT growing and spread the words across small, medium, large or any company
@@ -17,7 +17,7 @@ It is natural that you might find something that Esmerald Simple JWT should supp
 behaviour that needs addressing.
 
 The way we love doing things is very simple, contributions should start out with a
-[discussion](https://github.com/dymmond/esmerald_simple_jwt/discussions). The potential bugs shall be raised as "Potential Issue"
+[discussion](https://github.com/dymmond/esmerald-simple-jwt/discussions). The potential bugs shall be raised as "Potential Issue"
 in the discussions, the feature requests may be raised as "Ideas".
 
 We can then decide if the discussion needs to be escalated into an "Issue" or not.
@@ -37,18 +37,18 @@ it clear to understand and get the required help.
 
 ## Development
 
-To develop for Esmerald Simple JWT, create a fork of the [Esmerald Simple JWT repository](https://github.com/dymmond/esmerald_simple_jwt) on GitHub.
+To develop for Esmerald Simple JWT, create a fork of the [Esmerald Simple JWT repository](https://github.com/dymmond/esmerald-simple-jwt) on GitHub.
 
 After, clone your fork with the follow command replacing `YOUR-USERNAME` wih your GitHub username:
 
 ```shell
-$ git clone https://github.com/YOUR-USERNAME/esmerald_simple_jwt
+$ git clone https://github.com/YOUR-USERNAME/esmerald-simple-jwt
 ```
 
 ### Install the project dependencies
 
 ```shell
-$ cd esmerald_simple_jwt
+$ cd esmerald-simple-jwt
 $ scripts/install
 ```
 
@@ -79,7 +79,7 @@ $ scripts/lint
 
 ### Documentation
 
-Improving the documentation is quite easy and it is placed inside the `esmerald_simple_jwt/docs` folder.
+Improving the documentation is quite easy and it is placed inside the `esmerald-simple-jwt/docs` folder.
 
 To start the docs, run:
 
@@ -113,7 +113,7 @@ Before releasing a new package into production some considerations need to be ta
 
 * **Changelog**
     * Like many projects, we follow the format from [keepchangelog](https://keepachangelog.com/en/1.0.0/).
-    * [Compare](https://github.com/dymmond/esmerald_simple_jwt/compare/) `main` with the release tag and list of the entries
+    * [Compare](https://github.com/dymmond/esmerald-simple-jwt/compare/) `main` with the release tag and list of the entries
 that are of interest to the users of the framework.
         * What **must** go in the changelog? added, changed, removed or deprecated features and the bug fixes.
         * What is **should not go** in the changelog? Documentation changes, tests or anything not specified in the
@@ -126,7 +126,7 @@ point above.
 
 #### Releasing
 
-Once the `release` PR is merged, create a new [release](https://github.com/dymmond/esmerald_simple_jwt/releases/new)
+Once the `release` PR is merged, create a new [release](https://github.com/dymmond/esmerald-simple-jwt/releases/new)
 that includes:
 
 Example:
