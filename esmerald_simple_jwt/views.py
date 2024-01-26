@@ -1,14 +1,10 @@
-from typing import Dict, List
+from typing import Dict
 
-from esmerald import APIView, JSONResponse, post, status
+from esmerald import JSONResponse, post, status
 from esmerald.conf import settings
 from esmerald.openapi.datastructures import OpenAPIResponse
 
 from esmerald_simple_jwt.schemas import AccessToken, RefreshToken, TokenAccess
-
-
-class UserAPIView(APIView):
-    tags: List[str] = settings.simple_jwt.tags
 
 
 @post(  # type: ignore[arg-type]
@@ -17,6 +13,7 @@ class UserAPIView(APIView):
     description=settings.simple_jwt.signin_description,
     status_code=status.HTTP_200_OK,
     security=settings.simple_jwt.security,
+    tags=settings.simple_jwt.tags,
     responses={200: OpenAPIResponse(model=TokenAccess)},
 )
 async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type: ignore
@@ -33,6 +30,7 @@ async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type
     summary=settings.simple_jwt.refresh_summary,
     description=settings.simple_jwt.refresh_description,
     security=settings.simple_jwt.security,
+    tags=settings.simple_jwt.tags,
     status_code=status.HTTP_200_OK,
     responses={200: OpenAPIResponse(model=AccessToken)},
 )

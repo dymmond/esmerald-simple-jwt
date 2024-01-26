@@ -1,13 +1,9 @@
-import os
-
 from esmerald import Esmerald, Pluggable
 from esmerald.testclient import EsmeraldTestClient
 from tests.settings import TestSettings
 
 from esmerald_simple_jwt.config import SimpleJWT
 from esmerald_simple_jwt.extension import SimpleJWTExtension
-
-os.environ.setdefault("ESMERALD_SETTINGS_MODULE", None)
 
 
 class CustomSettings(TestSettings):
@@ -31,6 +27,7 @@ class CustomSettings(TestSettings):
 
 def test_can_change_properties():
     app = Esmerald(
+        settings_module=CustomSettings,
         routes=[],
         pluggables={"simple-jwt": Pluggable(SimpleJWTExtension, path="/auth")},
         enable_openapi=True,

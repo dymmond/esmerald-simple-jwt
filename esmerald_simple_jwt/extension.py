@@ -23,7 +23,6 @@ class SimpleJWTExtension(Extension):
         self,
         path: Optional[str] = None,
         name: Optional[str] = None,
-        settings_module: Optional[Any] = None,
         middleware: Optional[Sequence["Middleware"]] = None,
         dependencies: Optional["Dependencies"] = None,
         exception_handlers: Optional["ExceptionHandlerMap"] = None,
@@ -47,7 +46,6 @@ class SimpleJWTExtension(Extension):
             permissions=permissions,
             include_in_schema=include_in_schema,
             security=security,
-            settings_module=settings_module,
             enable_openapi=enable_openapi,
         )
         self.app.add_child_esmerald(
