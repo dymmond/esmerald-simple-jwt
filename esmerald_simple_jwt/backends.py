@@ -8,14 +8,7 @@ from esmerald.security.jwt.token import Token
 from jose import JWSError, JWTError
 from pydantic import BaseModel, EmailStr
 
-# from esmerald_simple_jwt.constants import SIMPLE_JWT_SETTINGS
 from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
-
-# if not hasattr(settings, SIMPLE_JWT_SETTINGS):
-#     raise ImproperlyConfigured(
-#         f"'simple_jwt' settings not found in {settings.__class__.__name__}. "
-#         "Check the documentation for more details."
-#     )
 
 
 class BaseBackendAuthentication(ABC, BaseModel):

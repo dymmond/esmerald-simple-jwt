@@ -2,8 +2,8 @@ import os
 from functools import cached_property
 from typing import Optional, Tuple
 
-from edgy import Database as EdgyDatabase
 from edgy import Registry as EdgyRegistry
+from edgy.testclient import DatabaseTestClient
 from esmerald import EsmeraldAPISettings
 
 from esmerald_simple_jwt.backends import BackendEmailAuthentication, RefreshAuthentication
@@ -24,14 +24,20 @@ class TestSettings(EsmeraldAPISettings):
     include_in_schema: bool = False
 
     @cached_property
-    def edgy_registry(self) -> Tuple[EdgyDatabase, EdgyRegistry]:
-        database = EdgyDatabase(TEST_DATABASE_URL)
+    def edgy_registry(self) -> Tuple[DatabaseTestClient, EdgyRegistry]:
+        database = DatabaseTestClient(TEST_DATABASE_URL)
         return database, EdgyRegistry(database=database)
 
     @property
     def simple_jwt(self) -> SimpleJWT:
-        return SimpleJWT(
-            signing_key=self.secret_key,
-            backend_authentication=BackendEmailAuthentication,
-            backend_refresh=RefreshAuthentication,
-        )
+        if getattr(self, "_simple_jwt", None) is None:
+            return SimpleJWT(
+                signing_key=self.secret_key,
+                backend_authentication=BackendEmailAuthentication,
+                backend_refresh=RefreshAuthentication,
+            )
+        return self._simple_jwt
+
+    @simple_jwt.setter
+    def simple_jwt(self, value) -> SimpleJWT:
+        self._simple_jwt = value
