@@ -2,8 +2,4 @@
 
 ## 0.1.0
 
-### Added
-
-### Changed
-
-### Fixed
+Initial release of Esmerald Simple JWT.
