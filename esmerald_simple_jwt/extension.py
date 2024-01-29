@@ -6,12 +6,30 @@ from esmerald.permissions.types import Permission
 from esmerald.pluggables import Extension
 from esmerald.routing.router import Include
 from esmerald.types import Dependencies, ExceptionHandlerMap, Middleware
-from openapi_schemas_pydantic.v3_1_0 import SecurityScheme
+from typing_extensions import Annotated, Doc
 
 
 class SimpleJWTExtension(Extension):
     """
-    The pluggable version of esmerald simple jwt.
+    The pluggable version of Esmerald Simple JWT.
+
+    This Pluggable can and should be used if you want to add
+    the package independently as a ChilEsmerald.
+
+    **Example**
+
+    ```python
+    from esmerald import Esmerald, Pluggable
+    from esmerald_simple_jwt.extension import SimpleJWTExtension
+
+
+    app = Esmerald(
+        pluggables={
+            "simple-jwt": Pluggable(SimpleJWTExtension, path="/auth"),
+        },
+    )
+
+    ```
     """
 
     def __init__(self, app: Optional["Esmerald"] = None, **kwargs: Any):
@@ -21,20 +39,120 @@ class SimpleJWTExtension(Extension):
 
     def extend(
         self,
-        path: Optional[str] = None,
-        name: Optional[str] = None,
-        middleware: Optional[Sequence["Middleware"]] = None,
-        dependencies: Optional["Dependencies"] = None,
-        exception_handlers: Optional["ExceptionHandlerMap"] = None,
-        interceptors: Optional[List["Interceptor"]] = None,
-        permissions: Optional[List["Permission"]] = None,
-        include_in_schema: Optional[bool] = True,
-        security: Optional[List["SecurityScheme"]] = None,
-        enable_openapi: Optional[bool] = True,
-    ) -> None:
-        if path is None:
-            path = "/simple-jwt"
+        path: Annotated[
+            Optional[str],
+            Doc(
+                """
+                Relative path of the Plugable.
+                The path can contain parameters in a dictionary like format
+                and if the path is not provided, it will default to `/`.
 
+                **Example**
+
+                ```python
+                Pluugable(SimpleJWTExtension, path="/{age: int}"))
+                ```
+                """
+            ),
+        ] = "/simple-jwt",
+        name: Annotated[
+            Optional[str],
+            Doc(
+                """
+                The name for the Gateway. The name can be reversed by `url_path_for()`.
+                """
+            ),
+        ] = None,
+        middleware: Annotated[
+            Optional[Sequence["Middleware"]],
+            Doc(
+                """
+                A list of middleware to run for every request. The middlewares of a Gateway will be checked from top-down or [Starlette Middleware](https://www.starlette.io/middleware/) as they are both converted internally. Read more about [Python Protocols](https://peps.python.org/pep-0544/).
+                """
+            ),
+        ] = None,
+        dependencies: Annotated[
+            Optional["Dependencies"],
+            Doc(
+                """
+                A dictionary of string and [Inject](https://esmerald.dev/dependencies/) instances enable application level dependency injection.
+                """
+            ),
+        ] = None,
+        exception_handlers: Annotated[
+            Optional["ExceptionHandlerMap"],
+            Doc(
+                """
+                A dictionary of [exception types](https://esmerald.dev/exceptions/) (or custom exceptions) and the handler functions on an application top level. Exception handler callables should be of the form of `handler(request, exc) -> response` and may be be either standard functions, or async functions.
+                """
+            ),
+        ] = None,
+        interceptors: Annotated[
+            Optional[List["Interceptor"]],
+            Doc(
+                """
+                A list of [interceptors](https://esmerald.dev/interceptors/) to serve the application incoming requests (HTTP and Websockets).
+                """
+            ),
+        ] = None,
+        permissions: Annotated[
+            Optional[List["Permission"]],
+            Doc(
+                """
+                A list of [permissions](https://esmerald.dev/permissions/) to serve the application incoming requests (HTTP and Websockets).
+                """
+            ),
+        ] = None,
+        include_in_schema: Annotated[
+            Optional[bool],
+            Doc(
+                """
+                Boolean flag indicating if it should be added to the OpenAPI docs.
+                """
+            ),
+        ] = True,
+        enable_openapi: Annotated[
+            Optional[bool],
+            Doc(
+                """
+                Boolean flag indicating if the OpenAPI documentation should
+                be generated or not.
+
+                When `False`, no OpenAPI documentation is accessible.
+
+                !!! Tip
+                    Disable this option if you run in production and no one should access the
+                    documentation unless behind an authentication.
+                ```
+                """
+            ),
+        ] = True,
+    ) -> None:
+        """
+        The extend() default from the Pluggable interface allowing to pass extra parameters
+        to the initialisation.
+
+        **Example**
+
+        ```python
+        from esmerald import Esmerald, Pluggable
+        from esmerald_simple_jwt.extension import SimpleJWTExtension
+
+
+        app = Esmerald(
+            pluggables={
+                "simple-jwt": Pluggable(
+                    SimpleJWTExtension,
+                    path="/auth",
+                    middleware=...,
+                    permissions=...,
+                    interceptors=...,
+                ),
+            },
+        )
+
+        ```
+        """
         simple_jwt = ChildEsmerald(
             routes=[
                 Include(namespace="esmerald_simple_jwt.urls"),
@@ -45,7 +163,6 @@ class SimpleJWTExtension(Extension):
             interceptors=interceptors,
             permissions=permissions,
             include_in_schema=include_in_schema,
-            security=security,
             enable_openapi=enable_openapi,
         )
         self.app.add_child_esmerald(

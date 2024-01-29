@@ -6,28 +6,25 @@ from pydantic import BaseModel
 from typing_extensions import Annotated, Doc
 
 from esmerald_simple_jwt.backends import BaseBackendAuthentication, BaseRefreshAuthentication
-from esmerald_simple_jwt.schemas import LoginEmailIn
+from esmerald_simple_jwt.schemas import AccessToken, LoginEmailIn, RefreshToken, TokenAccess
 
 
 class SimpleJWT(JWTConfig):
     """
     A subclass of [JWTConfig](https://esmerald.dev/configurations/jwt/).
 
-    This is a configuration that should be used with a dependency and for
-    that reason you must run first:
-
-    ```shell
-    $ pip install esmerald-simple-jwt
-    ```
+    When uwing this object, default values can be overridden to any application
+    preference.
 
     **Example**
 
     ```python
-    from esmerald import Esmerald, settings
+    from esmerald import Esmerald, EsmeraldAPISettings
     from esmerald_simple_jwt.config import SimpleJWT
 
+
     class AppSettings(EsmeraldAPISettings):
-        simple_jwt: JWTConfig = SimpleJWT(
+        simple_jwt: SimpleJWT = SimpleJWT(
             signing_key=settings.secret_key,
             backend_authentication=...,
             backend_refresh=...,
@@ -39,7 +36,11 @@ class SimpleJWT(JWTConfig):
         Type[BaseBackendAuthentication],
         Doc(
             """
-            The backend authentication being used by the system.
+            The backend authentication being used by the system. A subclass of `esmerald_simple_jwt.backends.BaseBackendAuthentication`.
+
+            !!! Warning
+                All backend authentication used by Esmerald Simple JWT **must implement**
+                the `async def authenticate()` functionatility.
             """
         ),
     ]
@@ -47,7 +48,11 @@ class SimpleJWT(JWTConfig):
         Type[BaseRefreshAuthentication],
         Doc(
             """
-            The backend refresh being used by the system.
+            The backend refresh being used by the system. A subclass of `esmerald_simple_jwt.backends.BaseRefreshAuthentication`.
+
+            !!! Warning
+                All backend authentication used by Esmerald Simple JWT **must implement**
+                the `async def refresh()` functionatility.
             """
         ),
     ]
@@ -57,14 +62,81 @@ class SimpleJWT(JWTConfig):
             """
             A pydantic base model with the needed fields for the login.
             Usually `email/username` and `password.
+
+            This model can be found in `esmerald_simple_jwt.schemas.LoginEmailIn` and it is
+            used by default for the login endpoint of a user into the system.
+
+            !!! Tip
+                If you don't want to use the default email/password but instead something
+                unique to you, you can simply create your own model and override the `login_model`
+                settings from the `SimpleJWT` configuration.
             """
         ),
     ] = LoginEmailIn
+    refresh_model: Annotated[
+        Type[BaseModel],
+        Doc(
+            """
+            A pydantic base model with the needed fields for the refresh token payload.
+            Usually a dictionary of the format:
+
+            ```python
+            {
+                "refresh_token": ...
+            }
+            ```
+
+            This model can be found in `esmerald_simple_jwt.schemas.RefreshToken` and it is
+            used by default for the refresh endpoint of an `access_token` in the system.
+            """
+        ),
+    ] = RefreshToken
+    access_token_model: Annotated[
+        Type[BaseModel],
+        Doc(
+            """
+            **Used for OpenAPI specification and return of the refresh token URL**.
+
+            A pydantic base model with the representing the return of an `access_token`:
+
+            ```python
+            {
+                "access_token": ...
+            }
+            ```
+
+            This model can be found in `esmerald_simple_jwt.schemas.AccessToken` and it is
+            used by default for the refresh endpoint return of an `access_token` in the system.
+            """
+        ),
+    ] = AccessToken
+    token_model: Annotated[
+        Type[BaseModel],
+        Doc(
+            """
+            **Used for OpenAPI specification only**.
+
+            A pydantic base model with the representing the return of an `access_token` and `refresh_token`:
+
+            ```python
+            {
+                "access_token": ...,
+                "refresh_token": ...
+            }
+            ```
+
+            This model can be found in `esmerald_simple_jwt.schemas.TokenAccess` and it is
+            used by default for the refresh endpoint return of a dictionary containing the access and refresh tokens.
+            """
+        ),
+    ] = TokenAccess
     tags: Annotated[
         Union[str, None],
         Doc(
             """
-            OpenAPI tags to be displayed.
+            OpenAPI tags to be displayed on each view provided by Esmerald Simple JWT.
+
+            These will be commmon to both views.
             """
         ),
     ] = None

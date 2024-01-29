@@ -1,56 +1,12 @@
-from abc import ABC
 from datetime import datetime
-from typing import Any, Dict, Union
 
 from esmerald.conf import settings
 from esmerald.exceptions import AuthenticationError, NotAuthorized
 from jose import JWSError, JWTError
-from pydantic import BaseModel, EmailStr
 
+from esmerald_simple_jwt.backends import BaseRefreshAuthentication
 from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
 from esmerald_simple_jwt.token import Token
-
-
-class BaseBackendAuthentication(ABC, BaseModel):
-    """
-    Base for all authentication backends.
-    """
-
-    async def authenticate(self) -> Union[Dict[str, str], Any]:
-        raise NotImplementedError("All backends must implement the `authenticate()` method.")
-
-
-class BaseRefreshAuthentication(ABC, BaseModel):
-    """
-    Base for all refresh backends.
-    """
-
-    async def refresh(self) -> Union[Dict[str, str], Any]:
-        raise NotImplementedError("All refresh backends must implement the `refresh()` method.")
-
-
-class BackendEmailAuthentication(BaseBackendAuthentication):
-    """
-    Utility class that helps with the authentication process using email and password.
-    """
-
-    email: EmailStr
-    password: str
-
-    async def authenticate(self) -> Union[Dict[str, str], Any]:
-        ...
-
-
-class BackendUsernameAuthentication(BaseBackendAuthentication):
-    """
-    Utility class that helps with the authentication process using username and password.
-    """
-
-    username: str
-    password: str
-
-    async def authenticate(self) -> Union[Dict[str, str], Any]:
-        ...
 
 
 class RefreshAuthentication(BaseRefreshAuthentication):
@@ -71,7 +27,7 @@ class RefreshAuthentication(BaseRefreshAuthentication):
                 token=token,
                 key=settings.simple_jwt.signing_key,
                 algorithms=[settings.simple_jwt.algorithm],
-            )  # type: ignore
+            )
         except (JWSError, JWTError) as e:
             raise AuthenticationError(str(e)) from e
 

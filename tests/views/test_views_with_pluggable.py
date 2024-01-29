@@ -91,7 +91,6 @@ settings.simple_jwt = simple_jwt
 
 def create_app():
     app = Esmerald(
-        routes=[],
         pluggables={"simple-jwt": Pluggable(SimpleJWTExtension, path="/auth")},
     )
     return app

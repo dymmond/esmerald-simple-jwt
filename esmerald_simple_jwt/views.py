@@ -4,8 +4,6 @@ from esmerald import JSONResponse, post, status
 from esmerald.conf import settings
 from esmerald.openapi.datastructures import OpenAPIResponse
 
-from esmerald_simple_jwt.schemas import AccessToken, RefreshToken, TokenAccess
-
 
 @post(  # type: ignore[arg-type]
     path=settings.simple_jwt.signin_url,
@@ -14,7 +12,7 @@ from esmerald_simple_jwt.schemas import AccessToken, RefreshToken, TokenAccess
     status_code=status.HTTP_200_OK,
     security=settings.simple_jwt.security,
     tags=settings.simple_jwt.tags,
-    responses={200: OpenAPIResponse(model=TokenAccess)},
+    responses={200: OpenAPIResponse(model=settings.simple_jwt.token_model)},
 )
 async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type: ignore
     """
@@ -32,9 +30,11 @@ async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type
     security=settings.simple_jwt.security,
     tags=settings.simple_jwt.tags,
     status_code=status.HTTP_200_OK,
-    responses={200: OpenAPIResponse(model=AccessToken)},
+    responses={200: OpenAPIResponse(model=settings.simple_jwt.access_token_model)},
 )
-async def refresh_token(payload: RefreshToken) -> AccessToken:
+async def refresh_token(
+    payload: settings.simple_jwt.refresh_model,  # type: ignore
+) -> settings.simple_jwt.access_token_model:  # type: ignore
     authentication = settings.simple_jwt.backend_refresh(token=payload)
-    access_token: AccessToken = await authentication.refresh()
+    access_token = await authentication.refresh()
     return access_token
