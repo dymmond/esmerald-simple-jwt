@@ -25,7 +25,7 @@ class BaseRefreshAuthentication(ABC, BaseModel):
     Base for all refresh backends.
     """
 
-    async def refresh(self) -> AccessToken:
+    async def refresh(self) -> Union[Dict[str, str], Any]:
         raise NotImplementedError("All refresh backends must implement the `refresh()` method.")
 
 

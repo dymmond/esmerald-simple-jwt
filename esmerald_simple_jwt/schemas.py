@@ -2,12 +2,34 @@ from pydantic import BaseModel, EmailStr
 
 
 class AccessToken(BaseModel):
+    """
+    The representation of an access token.
+
+    When `model_dump()` is called, it will generate a python like
+    dictionary.
+
+    ```python
+    {
+        "access_token": ...
+    }
+    ```
+    """
+
     access_token: str
 
 
 class RefreshToken(BaseModel):
     """
-    Model used only to ref
+    The representation of a refresh token.
+
+    When `model_dump()` is called, it will generate a python like
+    dictionary.
+
+    ```python
+    {
+        "refresh_token": ...
+    }
+    ```
     """
 
     refresh_token: str
@@ -15,7 +37,17 @@ class RefreshToken(BaseModel):
 
 class TokenAccess(AccessToken, RefreshToken):
     """
-    Model representation of an access token.
+    The representation of token access used by the signin response.
+
+    When `model_dump()` is called, it will generate a python like
+    dictionary.
+
+    ```python
+    {
+        "access_token": ...,
+        "refresh_token": ...,
+    }
+    ```
     """
 
     ...
@@ -23,7 +55,17 @@ class TokenAccess(AccessToken, RefreshToken):
 
 class LoginEmailIn(BaseModel):
     """
-    Login using email and password.
+    The representation of a login payload used by the signin endpoint when using an
+    email backend for validation.
+    When the endpoint is called via `POST` it should contain the following.
+
+
+    ```python
+    {
+        "email": ...,
+        "password": ...
+    }
+    ```
     """
 
     email: EmailStr
@@ -32,7 +74,16 @@ class LoginEmailIn(BaseModel):
 
 class LoginUserIn(BaseModel):
     """
-    Login username and password.
+    The representation of a login payload used by the signin endpoint when using an username backend for validation.
+    When the endpoint is called via `POST` it should contain the following.
+
+
+    ```python
+    {
+        "username": ...,
+        "password": ...
+    }
+    ```
     """
 
     username: str

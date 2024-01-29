@@ -72,6 +72,10 @@ nav:
   - Token: "token.md"
   - API Reference:
       - "references/index.md"
+      - SimpleJWT: "references/simple-jwt.md"
+      - Schemas: "references/schemas.md"
+      - Pluggable: "references/pluggable.md"
+      - Token: "references/token.md"
   - Contributing: "contributing.md"
   - Sponsorship: "sponsorship.md"
   - Release Notes: "release-notes.md"

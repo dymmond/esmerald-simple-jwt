@@ -41,6 +41,8 @@ a simple jwt approach was designed to facilitate the life of the developers and 
 Esmerald Simple JWT aims to simplify the generation of the `access_token` and `refresh_token` by
 providing out of the box mechanisms and views that can be imported directly into your application.
 
+This package uses Pydantic for its own schemas.
+
 ## Installation
 
 ```shell
@@ -86,7 +88,7 @@ since it provides already some out of the box configurations. Feel free to adapt
 models.
 * A [backend authentication](#the-backend-authentication) allowing out user to be validated
 for authentication.
-* A [backend refresh](./backends.md#the-backend-refresh) that handles with the refresh token of the user
+* A [backend refresh](#the-backend-refresh) that handles with the refresh token of the user
 already logged in.
 * A [SimpleJWT](#the-simple-jwt-configuration) configuration to be added to the application settings.
 
