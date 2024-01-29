@@ -136,3 +136,18 @@ async def test_return_token(async_client):
     assert "access_token" in response.json()
     assert "refresh_token" in response.json()
     assert response.status_code == 200
+
+
+async def test_refresh_access_token_successfully(async_client):
+    user = await create_user()
+
+    data = {"email": user.email, "password": "12345"}
+    response = await async_client.post("/simple-jwt/signin", json=data)
+    tokens = response.json()
+
+    response = await async_client.post(
+        "/simple-jwt/refresh-access", json={"refresh_token": tokens["refresh_token"]}
+    )
+    assert response.status_code == 200
+    assert "access_token" in response.json()
+    assert "refresh_token" not in response.json()

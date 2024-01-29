@@ -35,6 +35,6 @@ async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type
     responses={200: OpenAPIResponse(model=AccessToken)},
 )
 async def refresh_token(payload: RefreshToken) -> AccessToken:
-    authentication = settings.backend_refresh(token=payload)
+    authentication = settings.simple_jwt.backend_refresh(token=payload)
     access_token: AccessToken = await authentication.refresh()
     return access_token

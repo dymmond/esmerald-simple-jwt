@@ -4,11 +4,11 @@ from typing import Any, Dict, Union
 
 from esmerald.conf import settings
 from esmerald.exceptions import AuthenticationError, NotAuthorized
-from esmerald.security.jwt.token import Token
 from jose import JWSError, JWTError
 from pydantic import BaseModel, EmailStr
 
 from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
+from esmerald_simple_jwt.token import Token
 
 
 class BaseBackendAuthentication(ABC, BaseModel):
