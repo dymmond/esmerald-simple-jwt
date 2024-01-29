@@ -1,6 +1,6 @@
 site_name: Esmerald Simple JWT
 site_description: The Simple JWT integration with Esmerald.
-site_url: https://esmerald_simple_jwt.dymmond.com
+site_url: https://esmerald-simple-jwt.dymmond.com
 
 theme:
   name: "material"
@@ -8,16 +8,16 @@ theme:
   language: en
   palette:
     - scheme: "default"
-      primary: "purple"
-      accent: "amber"
+      primary: "green"
+      accent: "orange"
       media: "(prefers-color-scheme: light)"
       toggle:
         icon: "material/lightbulb"
         name: "Switch to dark mode"
     - scheme: "slate"
       media: "(prefers-color-scheme: dark)"
-      primary: "purple"
-      accent: "amber"
+      primary: "green"
+      accent: "orange"
       toggle:
         icon: "material/lightbulb-outline"
         name: "Switch to light mode"
@@ -29,8 +29,8 @@ theme:
     - content.tabs.link
     - content.code.copy
 
-repo_name: dymmond/esmerald_simple_jwt
-repo_url: https://github.com/dymmond/esmerald_simple_jwt
+repo_name: dymmond/esmerald-simple-jwt
+repo_url: https://github.com/dymmond/esmerald-simple-jwt
 edit_uri: ""
 plugins:
   - search
@@ -43,9 +43,35 @@ plugins:
       trim: false
   - markdownextradata:
       data: data
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            extensions:
+              - griffe_typingdoc
+            show_root_heading: true
+            show_if_no_docstring: true
+            preload_modules: [httpx, starlette]
+            inherited_members: true
+            members_order: source
+            separate_signature: true
+            unwrap_annotated: true
+            filters: ["!^_"]
+            merge_init_into_class: true
+            docstring_section_style: spacy
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
 
 nav:
   - Introduction: "index.md"
+  - SimpleJWT: "simple-jwt.md"
+  - Backends: "backends.md"
+  - Schemas: "schemas.md"
+  - Pluggable: "pluggable.md"
+  - Token: "token.md"
+  - API Reference:
+      - "references/index.md"
   - Contributing: "contributing.md"
   - Sponsorship: "sponsorship.md"
   - Release Notes: "release-notes.md"
