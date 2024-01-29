@@ -6,13 +6,13 @@ if [ "$VIRTUAL_ENV" != '' ]; then
 elif [ -d 'venv' ] ; then
     export PREFIX="venv/bin/"
 fi
-export SOURCE_FILES="esmerald-simple-jwt tests"
+export SOURCE_FILES="esmerald_simple_jwt tests"
 export EXCLUDE=__init__.py
-export MAIN="esmerald-simple-jwt"
+export MAIN="esmerald_simple_jwt"
 
 set -x
 
 ${PREFIX}mypy $MAIN
 ${PREFIX}ruff $SOURCE_FILES --line-length 99
 ${PREFIX}black $SOURCE_FILES --check --diff --check --line-length 99
-${PREFIX}isort $SOURCE_FILES --check --diff --project=esmerald-simple-jwt --line-length 99
+${PREFIX}isort $SOURCE_FILES --check --diff --project=esmerald_simple_jwt --line-length 99

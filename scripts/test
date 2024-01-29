@@ -13,9 +13,9 @@ if [ -z $GITHUB_ACTIONS ]; then
   scripts/check
 fi
 
-${PREFIX}coverage run -m pytest $@
+export ESMERALD_SETTINGS_MODULE='tests.settings.TestSettings'
 
-if [ -z $GITHUB_ACTIONS ]; then
-  scripts/coverage
-fi
+${PREFIX}pytest $@
+
+unset ESMERALD_SETTINGS_MODULE
 
