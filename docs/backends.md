@@ -143,3 +143,8 @@ was provided using the [RefreshAuthentication](#backend-refresh).
 ```python
 {!> ../docs_src/quickstart/backend_refresh.py !}
 ```
+
+## Using the SimpleJWT config
+
+With the authentication and refresh backends built and designed, you can now simply add them to your
+[SimpleJWT](./simple-jwt.md) configuration.

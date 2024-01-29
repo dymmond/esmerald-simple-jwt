@@ -65,8 +65,8 @@ plugins:
 
 nav:
   - Introduction: "index.md"
-  - SimpleJWT: "simple-jwt.md"
   - Backends: "backends.md"
+  - SimpleJWT: "simple-jwt.md"
   - Schemas: "schemas.md"
   - Pluggable: "pluggable.md"
   - Token: "token.md"
