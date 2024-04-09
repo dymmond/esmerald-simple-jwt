@@ -170,6 +170,7 @@ class SimpleJWTExtension(Extension):
                 "simple-jwt": Pluggable(
                     SimpleJWTExtension,
                     path="/auth",
+                    settings_module=...,
                     middleware=...,
                     permissions=...,
                     interceptors=...,
