@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Sequence
+from typing import TYPE_CHECKING, Any, List, Optional, Sequence
 
 from esmerald import ChildEsmerald, Esmerald
 from esmerald.interceptors.types import Interceptor
@@ -7,6 +7,9 @@ from esmerald.pluggables import Extension
 from esmerald.routing.router import Include
 from esmerald.types import Dependencies, ExceptionHandlerMap, Middleware
 from typing_extensions import Annotated, Doc
+
+if TYPE_CHECKING:
+    from esmerald.types import SettingsType
 
 
 class SimpleJWTExtension(Extension):
@@ -60,6 +63,29 @@ class SimpleJWTExtension(Extension):
             Doc(
                 """
                 The name for the Gateway. The name can be reversed by `url_path_for()`.
+                """
+            ),
+        ] = None,
+        settings_module: Annotated[
+            Optional["SettingsType"],
+            Doc(
+                """
+                Alternative settings parameter. This parameter is an alternative to
+                `ESMERALD_SETTINGS_MODULE` way of loading your settings into an Esmerald application.
+
+                When the `settings_module` is provided, it will make sure it takes priority over
+                any other settings provided for the instance.
+
+                Read more about the [settings module](https://esmerald.dev/application/settings/)
+                and how you can leverage it in your application.
+
+                !!! Tip
+                    The settings module can be very useful if you want to have, for example, a
+                    [ChildEsmerald](https://esmerald.dev/routing/router/?h=childe#child-esmerald-application) that needs completely different settings
+                    from the main app.
+
+                    Example: A `ChildEsmerald` that takes care of the authentication into a cloud
+                    provider such as AWS and handles the `boto3` module.
                 """
             ),
         ] = None,
@@ -144,6 +170,7 @@ class SimpleJWTExtension(Extension):
                 "simple-jwt": Pluggable(
                     SimpleJWTExtension,
                     path="/auth",
+                    settings_module=...,
                     middleware=...,
                     permissions=...,
                     interceptors=...,
@@ -164,6 +191,7 @@ class SimpleJWTExtension(Extension):
             permissions=permissions,
             include_in_schema=include_in_schema,
             enable_openapi=enable_openapi,
+            settings_module=settings_module,
         )
         self.app.add_child_esmerald(
             path=path,

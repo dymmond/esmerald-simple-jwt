@@ -38,7 +38,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
     "Topic :: Internet :: WWW/HTTP",
 ]
-dependencies = ["esmerald[jwt]>=2.7.1"]
+dependencies = ["esmerald[jwt]>=3.1.0"]
 keywords = [
     "esmerald_simple_jwt",
     "jwt",
@@ -67,7 +67,7 @@ test = [
     "pytest>=7.2.2,<8.0.0",
     "pytest-asyncio>=0.20.0",
     "pytest-cov>=4.0.0,<5.0.0",
-    "requests>=2.28.2",
+    "httpx",
     "ruff>=0.0.256,<1.0.0",
 ]
 

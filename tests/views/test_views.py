@@ -4,10 +4,12 @@ from typing import AsyncGenerator
 import pytest
 from anyio import from_thread, sleep
 from edgy.exceptions import ObjectNotFound
+from esmerald import Esmerald, Include
 from esmerald.conf import settings
 from esmerald.contrib.auth.edgy.base_user import AbstractUser
 from esmerald.exceptions import NotAuthorized
 from httpx import AsyncClient
+from tests.settings import TestSettings
 
 from esmerald_simple_jwt.backends import BackendEmailAuthentication as SimpleBackend
 from esmerald_simple_jwt.backends import RefreshAuthentication
@@ -83,7 +85,20 @@ simple_jwt = SimpleJWT(
     backend_authentication=BackendAuthentication,
     backend_refresh=RefreshAuthentication,
 )
-settings.simple_jwt = simple_jwt
+
+
+class ViewSettings(TestSettings):
+    @property
+    def simple_jwt(self) -> SimpleJWT:
+        return simple_jwt
+
+
+@pytest.fixture
+def app():
+    return Esmerald(
+        routes=[Include(path="/simple-jwt", namespace="esmerald_simple_jwt.urls")],
+        settings_module=ViewSettings,
+    )
 
 
 def blocking_function():
