@@ -12,4 +12,3 @@ set -x
 
 ${PREFIX}python -m build
 ${PREFIX}twine check dist/*
-${PREFIX}mkdocs build
