@@ -10,6 +10,7 @@ from esmerald.contrib.auth.edgy.base_user import AbstractUser
 from esmerald.exceptions import NotAuthorized
 from esmerald.testclient import EsmeraldTestClient
 from httpx import AsyncClient
+from tests.settings import TestSettings
 
 from esmerald_simple_jwt.backends import BackendEmailAuthentication as SimpleBackend
 from esmerald_simple_jwt.backends import RefreshAuthentication
@@ -86,12 +87,19 @@ simple_jwt = SimpleJWT(
     backend_authentication=BackendAuthentication,
     backend_refresh=RefreshAuthentication,
 )
-settings.simple_jwt = simple_jwt
+
+
+class ViewSettings(TestSettings):
+    @property
+    def simple_jwt(self) -> SimpleJWT:
+        return simple_jwt
 
 
 def create_app():
     app = Esmerald(
-        pluggables={"simple-jwt": Pluggable(SimpleJWTExtension, path="/auth")},
+        pluggables={
+            "simple-jwt": Pluggable(SimpleJWTExtension, path="/auth", settings_module=ViewSettings)
+        }
     )
     return app
 
