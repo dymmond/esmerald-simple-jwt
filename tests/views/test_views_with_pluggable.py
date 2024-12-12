@@ -9,7 +9,7 @@ from esmerald.conf import settings
 from esmerald.contrib.auth.edgy.base_user import AbstractUser
 from esmerald.exceptions import NotAuthorized
 from esmerald.testclient import EsmeraldTestClient
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from tests.settings import TestSettings
 
 from esmerald_simple_jwt.backends import BackendEmailAuthentication as SimpleBackend
@@ -119,7 +119,8 @@ def blocking_function():
 
 @pytest.fixture()
 async def async_client(app) -> AsyncGenerator:
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+    transport = ASGITransport(app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         # optional if you want to
         # have some time sleep if you are testing for instance, headers that expire after
         # a certain amount of time
