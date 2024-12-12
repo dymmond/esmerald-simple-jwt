@@ -25,18 +25,19 @@ def app():
     return create_app()
 
 
-@pytest.fixture(autouse=True, scope="module")
+@pytest.fixture(autouse=True, scope="function")
 async def create_test_database():
     try:
-        await models.create_all()
-        yield
-        await models.drop_all()
+        async with database:
+            await models.create_all()
+            yield
+            if not database.drop:
+                await models.drop_all()
     except Exception:
         pytest.skip("No database available")
 
 
 @pytest.fixture(autouse=True)
 async def rollback_transactions():
-    with database.force_rollback():
-        async with database:
-            yield
+    async with models.database:
+        yield

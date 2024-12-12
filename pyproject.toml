@@ -7,9 +7,8 @@ name = "esmerald_simple_jwt"
 description = "The Simple JWT integration with Esmerald"
 long_description = "The Simple JWT integration with Esmerald"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dynamic = ['version']
-license = "MIT"
 authors = [{ name = "Tiago Silva", email = "tiago.silva@dymmond.com" }]
 classifiers = [
     "Intended Audience :: Information Technology",
@@ -28,9 +27,8 @@ classifiers = [
     "Framework :: AsyncIO",
     "Framework :: AnyIO",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -38,7 +36,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
     "Topic :: Internet :: WWW/HTTP",
 ]
-dependencies = ["esmerald[jwt]>=3.1.0"]
+dependencies = ["esmerald[jwt]>=3.6.0"]
 keywords = [
     "esmerald_simple_jwt",
     "jwt",
@@ -144,7 +142,7 @@ ignore_missing_imports = true
 check_untyped_defs = true
 
 [[tool.mypy.overrides]]
-module = ["jose.*", "passlib.*"]
+module = ["passlib.*"]
 ignore_missing_imports = true
 ignore_errors = true
 

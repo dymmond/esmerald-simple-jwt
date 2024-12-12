@@ -1,12 +1,14 @@
 from typing import Any, List, Type, Union
 
 from esmerald.config.jwt import JWTConfig
-from esmerald.openapi.security.http import Bearer
+from esmerald.security.http import HTTPBearer
 from pydantic import BaseModel
 from typing_extensions import Annotated, Doc
 
 from esmerald_simple_jwt.backends import BaseBackendAuthentication, BaseRefreshAuthentication
 from esmerald_simple_jwt.schemas import AccessToken, LoginEmailIn, RefreshToken, TokenAccess
+
+security = HTTPBearer()
 
 
 class SimpleJWT(JWTConfig):
@@ -202,4 +204,4 @@ class SimpleJWT(JWTConfig):
             ```
             """
         ),
-    ] = [Bearer]
+    ] = [security]

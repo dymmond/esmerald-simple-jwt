@@ -4,7 +4,7 @@ from typing import Any, Dict, Union
 
 from esmerald.conf import settings
 from esmerald.exceptions import AuthenticationError, NotAuthorized
-from jose import JWSError, JWTError
+from jwt.exceptions import PyJWTError
 from pydantic import BaseModel, EmailStr
 
 from esmerald_simple_jwt.schemas import AccessToken, RefreshToken
@@ -72,7 +72,7 @@ class RefreshAuthentication(BaseRefreshAuthentication):
                 key=settings.simple_jwt.signing_key,
                 algorithms=[settings.simple_jwt.algorithm],
             )  # type: ignore
-        except (JWSError, JWTError) as e:
+        except PyJWTError as e:
             raise AuthenticationError(str(e)) from e
 
         if token.token_type != settings.simple_jwt.refresh_token_name:
@@ -84,11 +84,13 @@ class RefreshAuthentication(BaseRefreshAuthentication):
         # New token object
         new_token = Token(sub=token.sub, exp=expiry_date)
 
+        claims_extra = {"token_type": settings.simple_jwt.access_token_name}
+
         # Encode the token
         access_token = new_token.encode(
             key=settings.simple_jwt.signing_key,
             algorithm=settings.simple_jwt.algorithm,
-            token_type=settings.simple_jwt.access_token_name,
+            claims_extra=claims_extra,
         )
 
         return AccessToken(access_token=access_token)

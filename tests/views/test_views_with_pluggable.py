@@ -9,7 +9,7 @@ from esmerald.conf import settings
 from esmerald.contrib.auth.edgy.base_user import AbstractUser
 from esmerald.exceptions import NotAuthorized
 from esmerald.testclient import EsmeraldTestClient
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from tests.settings import TestSettings
 
 from esmerald_simple_jwt.backends import BackendEmailAuthentication as SimpleBackend
@@ -75,10 +75,12 @@ class BackendAuthentication(SimpleBackend):
             later = time
 
         token = Token(sub=str(user.id), exp=later)
+        claims_exta = {"token_type": token_type}
+
         return token.encode(
             key=settings.simple_jwt.signing_key,
             algorithm=settings.simple_jwt.algorithm,
-            token_type=token_type,
+            claims_extra=claims_exta,
         )
 
 
@@ -119,7 +121,8 @@ def blocking_function():
 
 @pytest.fixture()
 async def async_client(app) -> AsyncGenerator:
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+    transport = ASGITransport(app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         # optional if you want to
         # have some time sleep if you are testing for instance, headers that expire after
         # a certain amount of time
