@@ -84,11 +84,13 @@ class RefreshAuthentication(BaseRefreshAuthentication):
         # New token object
         new_token = Token(sub=token.sub, exp=expiry_date)
 
+        claims_extra = {"token_type": settings.simple_jwt.access_token_name}
+
         # Encode the token
         access_token = new_token.encode(
             key=settings.simple_jwt.signing_key,
             algorithm=settings.simple_jwt.algorithm,
-            token_type=settings.simple_jwt.access_token_name,
+            claims_extra=claims_extra,
         )
 
         return AccessToken(access_token=access_token)

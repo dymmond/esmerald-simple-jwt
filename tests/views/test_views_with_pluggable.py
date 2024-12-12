@@ -75,10 +75,12 @@ class BackendAuthentication(SimpleBackend):
             later = time
 
         token = Token(sub=str(user.id), exp=later)
+        claims_exta = {"token_type": token_type}
+
         return token.encode(
             key=settings.simple_jwt.signing_key,
             algorithm=settings.simple_jwt.algorithm,
-            token_type=token_type,
+            claims_extra=claims_exta,
         )
 
 

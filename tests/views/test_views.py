@@ -31,6 +31,7 @@ class User(AbstractUser):
 class BackendAuthentication(SimpleBackend):
     async def authenticate(self) -> str:
         """Authenticates a user and returns a JWT string"""
+
         try:
             user: User = await User.query.get(email=self.email)
         except ObjectNotFound:
@@ -44,6 +45,7 @@ class BackendAuthentication(SimpleBackend):
                 # You can use also the access_token_lifetime from the JWT config directly
                 access_time = datetime.now() + settings.simple_jwt.access_token_lifetime
                 refresh_time = datetime.now() + settings.simple_jwt.refresh_token_lifetime
+
                 access_token = TokenAccess(
                     access_token=self.generate_user_token(
                         user, time=access_time, token_type=settings.simple_jwt.access_token_name
@@ -67,16 +69,18 @@ class BackendAuthentication(SimpleBackend):
         """
         Generates the JWT token for the authenticated user.
         """
+
         if not time:
             later = datetime.now() + settings.simple_jwt.access_token_lifetime
         else:
             later = time
 
         token = Token(sub=str(user.id), exp=later)
+        claims_extra = {"token_type": token_type}
         return token.encode(
             key=settings.simple_jwt.signing_key,
             algorithm=settings.simple_jwt.algorithm,
-            token_type=token_type,
+            claims_extra=claims_extra,
         )
 
 
