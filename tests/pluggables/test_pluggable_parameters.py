@@ -29,16 +29,15 @@ def test_can_assemble_pluggable():
             "/auth/signin": {
                 "post": {
                     "summary": "Login API and returns a JWT Token.",
+                    "description": "Login a user and returns a JWT token, else raises ValueError.",
                     "operationId": "simplejwt_signin_signin_post",
                     "deprecated": False,
                     "security": [
                         {
-                            "Bearer": {
+                            "HTTPBearer": {
                                 "type": "http",
-                                "name": "Authorization",
-                                "in": "header",
                                 "scheme": "bearer",
-                                "scheme_name": "Bearer",
+                                "scheme_name": "HTTPBearer",
                             }
                         }
                     ],
@@ -84,7 +83,7 @@ def test_can_assemble_pluggable():
                                     "type": "string",
                                 },
                                 "media_type": {
-                                    "allOf": [{"$ref": "#/$defs/MediaType"}],
+                                    "$ref": "#/$defs/MediaType",
                                     "default": "application/json",
                                 },
                                 "status_text": {
@@ -116,12 +115,10 @@ def test_can_assemble_pluggable():
                     "deprecated": False,
                     "security": [
                         {
-                            "Bearer": {
+                            "HTTPBearer": {
                                 "type": "http",
-                                "name": "Authorization",
-                                "in": "header",
                                 "scheme": "bearer",
-                                "scheme_name": "Bearer",
+                                "scheme_name": "HTTPBearer",
                             }
                         }
                     ],
@@ -167,7 +164,7 @@ def test_can_assemble_pluggable():
                                     "type": "string",
                                 },
                                 "media_type": {
-                                    "allOf": [{"$ref": "#/$defs/MediaType"}],
+                                    "$ref": "#/$defs/MediaType",
                                     "default": "application/json",
                                 },
                                 "status_text": {
@@ -199,7 +196,6 @@ def test_can_assemble_pluggable():
                     "type": "object",
                     "required": ["access_token"],
                     "title": "AccessToken",
-                    "description": 'The representation of an access token.\n\nWhen `model_dump()` is called, it will generate a python like\ndictionary.\n\n```python\n{\n    "access_token": ...\n}\n```',
                 },
                 "HTTPValidationError": {
                     "properties": {
@@ -220,24 +216,21 @@ def test_can_assemble_pluggable():
                     "type": "object",
                     "required": ["email", "password"],
                     "title": "LoginEmailIn",
-                    "description": 'The representation of a login payload used by the signin endpoint when using an\nemail backend for validation.\nWhen the endpoint is called via `POST` it should contain the following.\n\n\n```python\n{\n    "email": ...,\n    "password": ...\n}\n```',
                 },
                 "RefreshToken": {
                     "properties": {"refresh_token": {"type": "string", "title": "Refresh Token"}},
                     "type": "object",
                     "required": ["refresh_token"],
                     "title": "RefreshToken",
-                    "description": 'The representation of a refresh token.\n\nWhen `model_dump()` is called, it will generate a python like\ndictionary.\n\n```python\n{\n    "refresh_token": ...\n}\n```',
                 },
                 "TokenAccess": {
                     "properties": {
-                        "refresh_token": {"type": "string", "title": "Refresh Token"},
                         "access_token": {"type": "string", "title": "Access Token"},
+                        "refresh_token": {"type": "string", "title": "Refresh Token"},
                     },
                     "type": "object",
-                    "required": ["refresh_token", "access_token"],
+                    "required": ["access_token", "refresh_token"],
                     "title": "TokenAccess",
-                    "description": 'The representation of token access used by the signin response.\n\nWhen `model_dump()` is called, it will generate a python like\ndictionary.\n\n```python\n{\n    "access_token": ...,\n    "refresh_token": ...,\n}\n```',
                 },
                 "ValidationError": {
                     "properties": {
@@ -254,13 +247,6 @@ def test_can_assemble_pluggable():
                     "title": "ValidationError",
                 },
             },
-            "securitySchemes": {
-                "Bearer": {
-                    "type": "http",
-                    "name": "Authorization",
-                    "in": "header",
-                    "scheme": "bearer",
-                }
-            },
+            "securitySchemes": {"HTTPBearer": {"type": "http", "scheme": "bearer"}},
         },
     }
