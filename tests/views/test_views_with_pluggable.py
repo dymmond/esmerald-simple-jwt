@@ -6,7 +6,6 @@ from anyio import from_thread, sleep
 from edgy.exceptions import ObjectNotFound
 from esmerald import Esmerald, Pluggable
 from esmerald.conf import settings
-from esmerald.contrib.auth.edgy.base_user import AbstractUser
 from esmerald.exceptions import NotAuthorized
 from esmerald.testclient import EsmeraldTestClient
 from httpx import ASGITransport, AsyncClient
@@ -24,10 +23,7 @@ pytestmark = pytest.mark.anyio
 
 setatt_object = object.__setattr__
 
-
-class User(AbstractUser):
-    class Meta:
-        registry = models
+User = models.models.get("User")
 
 
 class BackendAuthentication(SimpleBackend):

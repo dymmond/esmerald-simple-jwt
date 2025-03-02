@@ -7,7 +7,15 @@ database, models = settings.edgy_registry
 
 
 def create_app():
+    from edgy import Instance, monkay
+
+    # ensure the settings are loaded
+    monkay.evaluate_settings(
+        ignore_preload_import_errors=False,
+        onetime=False,
+    )
     app = Esmerald(routes=[Include(path="/simple-jwt", namespace="esmerald_simple_jwt.urls")])
+    monkay.set_instance(Instance(registry=app.settings.registry, app=app))
     return app
 
 
@@ -27,17 +35,14 @@ def app():
 
 @pytest.fixture(autouse=True, scope="function")
 async def create_test_database():
-    try:
-        async with database:
-            await models.create_all()
-            yield
-            if not database.drop:
-                await models.drop_all()
-    except Exception:
-        pytest.skip("No database available")
+    async with models.database:
+        await models.create_all()
+        yield
+        if not models.database.drop:
+            await models.drop_all()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=True, scope="function")
 async def rollback_transactions():
     async with models.database:
         yield
