@@ -1,5 +1,15 @@
 # Release Notes
 
+## 0.3.1
+
+### Added
+
+- Python 3.13 support.
+
+### Changed
+
+- Updated internals of Esmerald to match the new core config.
+
 ## 0.3.0
 
 ### Changed

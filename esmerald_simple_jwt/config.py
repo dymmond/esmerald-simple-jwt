@@ -1,6 +1,6 @@
 from typing import Any, List, Type, Union
 
-from esmerald.config.jwt import JWTConfig
+from esmerald.core.config.jwt import JWTConfig
 from esmerald.security.http import HTTPBearer
 from pydantic import BaseModel
 from typing_extensions import Annotated, Doc
@@ -42,7 +42,7 @@ class SimpleJWT(JWTConfig):
 
             !!! Warning
                 All backend authentication used by Esmerald Simple JWT **must implement**
-                the `async def authenticate()` functionatility.
+                the `async def authenticate()` functionality.
             """
         ),
     ]
