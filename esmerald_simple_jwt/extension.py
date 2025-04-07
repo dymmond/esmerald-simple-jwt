@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Any, List, Optional, Sequence
 
 from esmerald import ChildEsmerald, Esmerald
-from esmerald.interceptors.types import Interceptor
+from esmerald.core.interceptors.types import Interceptor
 from esmerald.permissions.types import Permission
 from esmerald.pluggables import Extension
 from esmerald.routing.router import Include
