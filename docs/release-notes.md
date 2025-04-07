@@ -1,5 +1,11 @@
 # Release Notes
 
+## 0.3.1
+
+### Changed
+
+- Updated internals of Esmerald to match the new core config.
+
 ## 0.3.0
 
 ### Changed
