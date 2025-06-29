@@ -5,7 +5,7 @@ from esmerald.conf import settings
 from esmerald.openapi.datastructures import OpenAPIResponse
 
 
-@post(  # type: ignore[arg-type]
+@post(
     path=settings.simple_jwt.signin_url,
     summary=settings.simple_jwt.signin_summary,
     description=settings.simple_jwt.signin_description,
@@ -23,7 +23,7 @@ async def signin(data: settings.simple_jwt.login_model) -> JSONResponse:  # type
     return JSONResponse(access_tokens)
 
 
-@post(  # type: ignore[arg-type]
+@post(
     path=settings.simple_jwt.refresh_url,
     summary=settings.simple_jwt.refresh_summary,
     description=settings.simple_jwt.refresh_description,

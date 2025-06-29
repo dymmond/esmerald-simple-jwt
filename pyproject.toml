@@ -7,7 +7,7 @@ name = "esmerald_simple_jwt"
 description = "The Simple JWT integration with Esmerald"
 long_description = "The Simple JWT integration with Esmerald"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dynamic = ['version']
 authors = [{ name = "Tiago Silva", email = "tiago.silva@dymmond.com" }]
 classifiers = [
@@ -29,7 +29,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -37,7 +36,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
     "Topic :: Internet :: WWW/HTTP",
 ]
-dependencies = ["esmerald[jwt]>=3.7.2"]
+dependencies = ["esmerald[jwt]>=3.8.4"]
 keywords = [
     "esmerald_simple_jwt",
     "jwt",
@@ -62,7 +61,7 @@ test = [
     "edgy[postgres,testing]>=0.27.3",
     "httpx",
     "isort>=5.12.0,<6.0.0",
-    "mypy>=1.1.0,<2.0.0",
+    "mypy>=1.16.1,<2.0.0",
     "pytest>=7.2.2,<8.0.0",
     "pytest-asyncio>=0.20.0",
     "pytest-cov>=4.0.0,<5.0.0",

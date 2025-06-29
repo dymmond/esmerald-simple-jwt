@@ -1,5 +1,12 @@
 # Release Notes
 
+## 0.3.2
+
+### Changed
+
+- Dropped support for Python 3.9 to match the tooling and ecosystem.
+- Make the minimum version of Esmerald 3.8.4
+
 ## 0.3.1
 
 ### Added
