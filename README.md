@@ -22,6 +22,14 @@
 </a>
 </p>
 
+--
+
+## Notice
+
+Esmerald was rebranded to Ravyn and therefore there is also a package for [Ravyn and JWT](https://github.com/dymmond/ravyn-simple-jwt) available.
+
+--
+
 ---
 
 **Documentation**: [https://esmerald-simple-jwt.dymmond.com](https://esmerald-simple-jwt.dymmond.com) 📚
